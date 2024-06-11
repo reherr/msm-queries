@@ -14,10 +14,27 @@ class DirectorsController < ApplicationController
   end
 
   def eldest
-      render({ :template => "director_templates/eldest" })
+
+    eldest = Director.where.not({ :dob => nil }).order({ :dob => :asc })
+     
+    @eldest_found = eldest.at(0)
+
+    birthday = @eldest_found.dob
+    @birthday_formatted = birthday.strftime("%B %d, %Y")
+
+
+    render({ :template => "director_templates/eldest" })
   end
 
   def youngest
+
+    youngest = Director.where.not({ :dob => nil }).order({ :dob => :desc })
+
+    @youngest_found = youngest.at(0)
+
+    birthday = @youngest_found.dob
+    @birthday_formatted = birthday.strftime("%B %d, %Y")
+
     render({ :template => "director_templates/youngest" })
   end
 end
